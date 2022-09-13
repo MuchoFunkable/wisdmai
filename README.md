@@ -1,9 +1,9 @@
 # WisdmAI Repository 
 ### This repo will contain all files related to Wisdm's app development. 
-
-#### Data - folder contain files related to data aggregation 
-#### Modeling - folder contains files related to data modeling 
-#### Output - folder containing output files for front-end 
+#### Repo Structure: 
+##### Data - folder contain files related to data aggregation 
+##### Modeling - folder contains files related to data modeling 
+##### Output - folder containing output files for front-end 
 
 
 ### Currently supported API's 
