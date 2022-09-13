@@ -7,7 +7,12 @@
 
 
 ### Todo's 
-# Implement Yahoo Finance/NYSE API for stock data 
-# Implement NewsAPI for news data 
+* Implement Yahoo Finance/NYSE API for stock data 
+* Implement NewsAPI for news data 
+* Reorganize code for supported data APIs 
+
+
+
+
 
 
