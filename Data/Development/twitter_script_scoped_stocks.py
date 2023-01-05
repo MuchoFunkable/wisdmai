@@ -10,11 +10,12 @@ import preprocessor as pre
 import regex as re
 import time
 import configparser
-
+import requests
 
 
 #### Functions #### 
 # export these into another file later 
+
 
 
 # Function: preprocess tweet text
@@ -100,62 +101,21 @@ def get_tweets(query, since_id, until_date, max_tweets):
 
 #### Data Extraction ####
 
+gainer_api = requests.get("https://financialmodelingprep.com/api/v3/stock_market/gainers?apikey=37fe2a7ee9f6099cf3a062fae59990bd")
+gainers = gainer_api.json()[0:10]
 
-#will be provided by scoping algorithm 
-tickers = [
-'AMZN',
-'MSFT',
-'SNAP',
-'HOOD',
-'WMT',
-'GOOG',
-'PTON',
-'CPRX',
-'TSLA',
-'AAPL',
-'F',
-'AMC',
-'SNDL',
-'DIS',
-'NIO',
-'META',
-'NFLX',
-'LCID',
-'NVDA',
-'VOO',
-'SPY',
-'GOOGL',
-'GPRO',
-'PFE',
-'PLUG',
-'AAL',
-'CCL',
-'BABA',
-'BAC',
-'RIVN',
-'SBUX',
-'PLTR',
-'DAL',
-'AMD',
-'NOK',
-'GME',
-'KO',
-'TLRY',
-'COIN',
-'VTI',
-'T',
-'CGC',
-'PYPL',
-'SPCE',
-'UBER',
-'GM',
-'MRNA',
-'BB'
-]
+loser_api = requests.get("https://financialmodelingprep.com/api/v3/stock_market/losers?apikey=37fe2a7ee9f6099cf3a062fae59990bd")
+losers = loser_api.json()[0:10]
+
+tickers = []
+for i in range(10):
+    tickers += [gainers[i]['symbol']]
+    tickers += [losers[i]['symbol']]
+
 
 
 #parameters
-max_tweets = 2000 #max per ticker 
+max_tweets = 10000 #max per ticker 
 
 print('tickers:', tickers)
 print('max_tweets:', max_tweets, '\n')
