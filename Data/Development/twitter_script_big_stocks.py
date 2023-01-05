@@ -15,7 +15,7 @@ import configparser
 
 #### Functions #### 
 # export these into another file later 
-
+print('tweepy version: ' + tweepy.__version__)
 
 # Function: preprocess tweet text
 def cleantweet(tweet):
@@ -52,15 +52,7 @@ def limit_handled(cursor):
 def getqueries(tickers): #returns a list of query strings
     queries = []
     for ticker in tickers:
-        querylist = []
-        querylist.append('$'+ticker)
-        othertickers=[]
-        [othertickers.append(t) for t in tickers]
-        othertickers.remove(ticker)
-        for otherticker in othertickers:
-            querylist.append(' -$'+otherticker) 
-        tickerquery = ''.join([str(q) for q in querylist]) + ' -filter:retweets' #Exclude retweets
-        queries.append(tickerquery)
+        queries.append('$'+ticker + ' -filter:retweets')
     return queries
 
 

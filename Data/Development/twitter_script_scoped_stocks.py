@@ -16,7 +16,7 @@ import requests
 #### Functions #### 
 # export these into another file later 
 
-
+print('tweepy version: ' + tweepy.__version__)
 
 # Function: preprocess tweet text
 def cleantweet(tweet):
@@ -43,14 +43,14 @@ def limit_handled(cursor):
             yield cursor.next()
         except StopIteration:
             break
-        except tweepy.error:
+        except tweepy.errors:
             print('Reached rate limit. Sleeping for >15 minutes')
             time.sleep(15 * 61)
 
 
 
 # Function: obtain query list from ticker list
-def getqueries(tickers): #returns a list of query strings
+#def getqueries(tickers): #returns a list of query strings
     queries = []
     for ticker in tickers:
         querylist = []
