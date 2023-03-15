@@ -183,7 +183,7 @@ export_df = dftweets[['ticker',
             ]].copy() 
 
 
-export_path = r"C:\Users\Dennis\Desktop\dftweets.csv"
+export_path = r"C:\Users\dennisle\Desktop\dftweets.csv"
 export_df.to_csv(export_path)
 
 
