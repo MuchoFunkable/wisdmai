@@ -94,6 +94,8 @@ for ticker in tickers:
                     comments = pd.concat([comments, row], axis = 0, ignore_index = True)
                 except: 
                     #edge case: user deletes comment > unable to retrieve user karma > exception
+                    # edge case: comment removed by moderator
+
                     print(Exception)
                     pass
 
