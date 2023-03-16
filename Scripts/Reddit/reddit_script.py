@@ -42,19 +42,24 @@ for ticker in tickers:
             if hasattr(post.author, 'is_suspended'):
                 #print(post.author.is_suspended)
                 continue
-
-            #collect desired values 
-            title_instance = {
-                'ticker': ticker, 
-                'subreddit': post.subreddit,
-                'content': post.title, 
-                'upvotes': post.score, 
-                'upvote_ratio': post.upvote_ratio,
-                'num_comments': post.num_comments, 
-                'author_karma': post.author.comment_karma, 
-                'author_verified': post.author.has_verified_email, 
-                'time': datetime.fromtimestamp(post.created_utc).strftime('%Y-%m-%d'),
-            }
+            
+            try: 
+                #collect desired values 
+                title_instance = {
+                    'ticker': ticker, 
+                    'subreddit': post.subreddit,
+                    'content': post.title, 
+                    'upvotes': post.score, 
+                    'upvote_ratio': post.upvote_ratio,
+                    'num_comments': post.num_comments, 
+                    'author_karma': post.author.comment_karma, 
+                    'author_verified': post.author.has_verified_email, 
+                    'time': datetime.fromtimestamp(post.created_utc).strftime('%Y-%m-%d'),
+                }
+            except:
+                #Untested edge case: author deletes account > unable to collect user data from author 
+                print(Exception)
+                pass
 
             #create row and concat it to the df
             row = pd.DataFrame([title_instance])
@@ -69,23 +74,29 @@ for ticker in tickers:
                 if 'user report' in comment.body.lower(): 
                     continue
                 
-                
-                comment_instance = {
-                    'ticker': ticker, 
-                    'subreddit': post.subreddit, 
-                    # optional can remove if no grouping by title is needed 
-                    'post_title': post.title,
-                    'content': comment.body, 
-                    'upvotes': comment.score, 
-                    'replies': comment.replies.__len__(), 
-                    'sticked': comment.stickied,
-                    'author_karma': comment.author.comment_karma, 
-                    'author_verified': comment.author.has_verified_email, 
-                    'time': datetime.fromtimestamp(comment.created_utc).strftime('%Y-%m-%d'),
-                }
 
-                row = pd.DataFrame([comment_instance])
-                comments = pd.concat([comments, row], axis = 0, ignore_index = True)
+                try: 
+                    comment_instance = {
+                        'ticker': ticker, 
+                        'subreddit': post.subreddit, 
+                        # optional can remove if no grouping by title is needed 
+                        'post_title': post.title,
+                        'content': comment.body, 
+                        'upvotes': comment.score, 
+                        'replies': comment.replies.__len__(), 
+                        'sticked': comment.stickied,
+                        'author_karma': comment.author.comment_karma, 
+                        'author_verified': comment.author.has_verified_email, 
+                        'time': datetime.fromtimestamp(comment.created_utc).strftime('%Y-%m-%d'),
+                    }
+                    
+                    row = pd.DataFrame([comment_instance])
+                    comments = pd.concat([comments, row], axis = 0, ignore_index = True)
+                except: 
+                    #edge case: user deletes comment > unable to retrieve user karma > exception
+                    print(Exception)
+                    pass
+
 
 
 #### Data Export #### 
@@ -97,10 +108,10 @@ posts_df = posts.copy()
 
 
 
-comments_export_path = r"C:\Users\Dennis\Desktop\comments.csv"
+comments_export_path = r"comments.csv"
 comments_df.to_csv(comments_export_path)
 
-posts_export_path = r"C:\Users\Dennis\Desktop\posts.csv"
+posts_export_path = r"posts.csv"
 posts_df.to_csv(posts_export_path)
 
 print('Data Exported')
